@@ -1,23 +1,25 @@
 var http = require ('http');
 var express = require ('express');
 var app = express()
-var data = [];
+var bodyParser = require ('body-parser')
 
 
-app.get('/data', (req,res) =>{
-    res.json(data)
+app.use(bodyParser.urlencoded({extende:false}));
+app.use(bodyParser.json());
 
+var persons = []
+app.post('/person', (req,res) => {
+    persons.push(req.body)
+    res.json(req.body)
 })
 
-app.post('/data', (req,res) =>{
-    data.push(Date.now())
-    res.json(data)
+
+app.get('/person', (req,res) =>{
+    res.json(persons)
 
 })
-
-
 
 http.createServer(app)
-app.listen(8000, () =>{
+.listen(8000, () =>{
     console.log('server berjalan di port 8000')
 });
